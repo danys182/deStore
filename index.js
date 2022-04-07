@@ -1,16 +1,16 @@
 const express = require('express');
+const routerApi = require('./routers/index');
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
 	res.send('Inicio deStore');
 });
 
-app.get('/products', (req, res) => {
-	res.json({
-		products: [{ name: 'Products 1' }, { name: 'Products 2' }],
-	});
-});
+routerApi(app);
 
 app.listen(port, () => {
 	console.log('Corriendo');

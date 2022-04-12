@@ -2,8 +2,8 @@ const express = require('express');
 const routerApi = require('./routers/index');
 const {
 	logErrors,
-	errorHandle,
-	boomErrorHandle,
+	errorHandler,
+	boomErrorHandler,
 } = require('./middlewares/error.handles');
 
 const app = express();
@@ -19,8 +19,8 @@ routerApi(app);
 
 //Middleswares manejo de errores
 app.use(logErrors);
-app.use(boomErrorHandle);
-app.use(errorHandle);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(port, () => {
 	console.log('Corriendo');

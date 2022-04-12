@@ -1,0 +1,12 @@
+function logErrors(err, req, res, next) {
+	next(err);
+}
+
+function errorHandle(err, req, res, next) {
+	res.status(500).json({
+		message: err.message,
+		stack: err.stack,
+	});
+}
+
+module.exports = { logErrors, errorHandle };

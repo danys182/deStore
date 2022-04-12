@@ -3,7 +3,6 @@ const faker = require('faker');
 class ProductsService {
 	#products = [];
 	constructor() {
-		console.log('Inicia');
 		this.#generate();
 	}
 
@@ -33,7 +32,7 @@ class ProductsService {
 			const product = this.#products.find((item) => item.id === id);
 
 			if (!product) {
-				reject('Product not found');
+				throw new Error('Product not found');
 			}
 
 			//Se recupera correctamente
@@ -58,7 +57,7 @@ class ProductsService {
 		return new Promise((resolve, reject) => {
 			const index = this.#products.findIndex((item) => item.id === id);
 			if (index === -1) {
-				reject('Product not found');
+				throw new Error('Product not found');
 			}
 			const product = this.#products[index];
 			const newProduct = { ...product, ...changes };
@@ -71,7 +70,7 @@ class ProductsService {
 		return new Promise((resolve, reject) => {
 			const index = this.#products.findIndex((item) => item.id === id);
 			if (index === -1) {
-				reject('Product not found');
+				throw new Error('Product not found');
 			}
 			//Se elimina correctamente
 			this.#products.splice(index, 1);

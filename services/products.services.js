@@ -3,10 +3,11 @@ const faker = require('faker');
 class ProductsService {
 	#products = [];
 	constructor() {
-		this.generate();
+		console.log('Inicia');
+		this.#generate();
 	}
 
-	generate() {
+	#generate() {
 		const limit = 100;
 		for (let index = 0; index < limit; index++) {
 			this.#products.push({
@@ -18,40 +19,64 @@ class ProductsService {
 		}
 	}
 
-	getAll() {
-		return this.#products;
+	async getAll() {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				//Simulo petición satisfactoria
+				resolve(this.#products);
+			}, 3000);
+		});
 	}
 
-	getById(id) {
-		return this.#products.find((item) => item.id === id);
+	async getById(id) {
+		return new Promise((resolve, reject) => {
+			const product = this.#products.find((item) => item.id === id);
+
+			if (!product) {
+				reject('Product not found');
+			}
+
+			//Se recupera correctamente
+			resolve(product);
+		});
 	}
 
-	create(data) {
+	async create(data) {
 		const newProduct = {
 			id: faker.datatype.uuid(),
 			...data,
 		};
-		this.#products.push(newProduct);
-		return newProduct;
+
+		return new Promise((resolve, reject) => {
+			this.#products.push(newProduct);
+			//Se almacena correctamente
+			resolve(newProduct);
+		});
 	}
 
-	update(id, changes) {
-		const index = this.#products.findIndex((item) => item.id === id);
-		if (index === -1) {
-			throw new Error('Product not found');
-		}
-		const product = this.#products[index];
-		const newProduct = { ...product, ...changes };
-		return (this.#products[index] = newProduct);
+	async update(id, changes) {
+		return new Promise((resolve, reject) => {
+			const index = this.#products.findIndex((item) => item.id === id);
+			if (index === -1) {
+				reject('Product not found');
+			}
+			const product = this.#products[index];
+			const newProduct = { ...product, ...changes };
+			//Se modifica correctamente
+			resolve((this.#products[index] = newProduct));
+		});
 	}
 
-	delete(id) {
-		const index = this.#products.findIndex((item) => item.id === id);
-		if (index === -1) {
-			throw new Error('Product not found');
-		}
-		this.#products.splice(index, 1);
-		return id;
+	async delete(id) {
+		return new Promise((resolve, reject) => {
+			const index = this.#products.findIndex((item) => item.id === id);
+			if (index === -1) {
+				reject('Product not found');
+			}
+			//Se elimina correctamente
+			this.#products.splice(index, 1);
+			resolve(id);
+		});
 	}
 }
 

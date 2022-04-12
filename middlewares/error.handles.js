@@ -4,9 +4,19 @@ function logErrors(err, req, res, next) {
 
 function errorHandle(err, req, res, next) {
 	res.status(500).json({
-		message: err.message,
+		statusCode: 500,
+		message: err,
 		stack: err.stack,
 	});
 }
 
-module.exports = { logErrors, errorHandle };
+function boomErrorHandle(err, req, res, next) {
+	if (err.isBoom) {
+		const { output } = err;
+		res.status(output.statusCode).json(output.payload);
+	}
+
+	next(err);
+}
+
+module.exports = { logErrors, errorHandle, boomErrorHandle };

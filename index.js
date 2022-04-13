@@ -6,14 +6,24 @@ const {
 	errorHandler,
 	boomErrorHandler,
 } = require('./middlewares/error.handles');
+const boom = require('@hapi/boom');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-//acceso público
-app.use(cors());
+const whitelist = ['http://myd.com/'];
+var corsOptions = {
+	origin: function (origin, callback) {
+		if (whitelist.includes(origin) || !origin) {
+			callback(null, true);
+		} else {
+			callback(boom.unauthorized());
+		}
+	},
+};
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
 	res.send('Inicio deStore');

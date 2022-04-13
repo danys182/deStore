@@ -1,5 +1,6 @@
 const express = require('express');
 const routerApi = require('./routers/index');
+const cors = require('cors');
 const {
 	logErrors,
 	errorHandler,
@@ -10,6 +11,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+
+//acceso público
+app.use(cors());
 
 app.get('/', (req, res) => {
 	res.send('Inicio deStore');

@@ -16,7 +16,8 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.3",
 		"faker": "^5.5.3",
-		"joi": "^17.6.0"
+		"joi": "^17.6.0",
+		"winston": "^3.7.2"
 	},
 	"devDependencies": {
 		"eslint-config-prettier": "^8.5.0",

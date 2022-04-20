@@ -25,7 +25,7 @@ class ProductsService {
 			setTimeout(() => {
 				//Simulo petición satisfactoria
 				resolve(this.#products);
-			}, 3000);
+			}, 100);
 		});
 	}
 

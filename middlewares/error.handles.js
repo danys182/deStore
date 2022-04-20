@@ -1,21 +1,19 @@
-function logErrors(err, req, res, next) {
-	console.error(err);
-	next(err);
-}
+const logger = require('./../utils/winston.createLogger');
 
 function errorHandler(err, req, res, next) {
+	logger.error(`${err.stack}`);
 	return res.status(500).json({
 		message: err.message,
-		stack: err.stack,
 	});
 }
 
 function boomErrorHandler(err, req, res, next) {
 	if (err.isBoom) {
 		const { output } = err;
-		return res.status(output.statusCode).json(output.payload);
+		if (output.statusCode.toString().match(/^4/))
+			return res.status(output.statusCode).json(output.payload);
 	}
 	next(err);
 }
 
-module.exports = { logErrors, errorHandler, boomErrorHandler };
+module.exports = { errorHandler, boomErrorHandler };
